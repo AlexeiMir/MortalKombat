@@ -1,4 +1,8 @@
-const logs = {
+import {normalize,getRandom} from './utils.js'
+
+const $chat = document.querySelector('.chat')
+
+export const logs = {
     start: 'Часы показывали [time], когда [player1] и [player2] бросили вызов друг другу.',
     end: [
         'Результат удара [playerWins]: [playerLose] - труп',
@@ -37,3 +41,43 @@ const logs = {
     ],
     draw: 'Ничья - это тоже победа!'
 };
+function logText(type) {
+    return logs[type][getRandom(logs[type].length)-1]
+}
+
+export function generateLogs(type,{name:name1,hp:hp1},{name:name2,hp:hp2},value){
+    let text = ''
+    let date = new Date()
+    let time = `${normalize(date.getHours())}:${normalize(date.getMinutes())}:${normalize(date.getSeconds())}`
+    switch (type) {
+        case 'start':
+            text = `${logs[type].replace('[time]',time).replace('[player1]', name1)
+                .replace('[player2]', name2)}`
+            break
+        case 'end':
+            text =`${logText(type).replace('[playerWins]', name1)
+                .replace('[playerLose]', name2)}`
+            console.log(text)
+            break
+        case 'defence':
+            text =`${time} - ${logText(type).replace('[playerKick]', name2)
+                .replace('[playerDefence]', name1)} `
+            break
+        case 'hit':
+            text =`${time} - ${logText(type).replace('[playerKick]', name1)
+                .replace('[playerDefence]', name2)}  
+                ${100-hp2 === 0 ? '' : ` - ${value} [${hp2}/100]` }`
+            break
+        case 'draw':
+            text = `${time} - ${logText(type)}`
+            break
+        default:
+            return 'Type не пришел'
+
+
+
+    }
+
+    const $el = `<p>${text}</p>`
+    $chat.insertAdjacentHTML('afterbegin', $el)
+}
