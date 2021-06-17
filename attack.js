@@ -1,13 +1,8 @@
-import {getRandom} from './utils.js'
+import {getRandom} from './utils/index.js'
+import {HIT, ATTACK, LOGS} from './constants/index.js'
 
 const $formFight = document.querySelector('.control')
 
-const HIT = {
-    head: 30,
-    body: 25,
-    foot: 20,
-}
-const ATTACK = ['head', 'body', 'foot'];
 
 
 export const enemyAttack = () => {
@@ -16,6 +11,7 @@ export const enemyAttack = () => {
 
     console.log('###:hit', hit)
     console.log('###:defence', defence)
+    console.log(getRandom(HIT[hit]));
 
     return {
         value: getRandom(HIT[hit]),
