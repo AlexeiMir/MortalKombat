@@ -1,34 +1,47 @@
 import { createElement,getTime,getRandom}  from '../utils/index.js'
 import {Player} from '../player/index.js'
 import {HIT, ATTACK, LOGS} from '../constants/index.js'
+import {playerApi} from "../index.js";
 
 const $randomButton = document.querySelector('.button')
 const $formFight = document.querySelector('.control')
 const $chat = document.querySelector('.chat')
 const $arenas = document.querySelector('.arenas')
 
-const player1 = new Player({
-    player: 1,
-    name: 'Skorpion',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-    player: 1,
-    rootSelector: 'arenas'
-})
+// const player1 = new Player({
+//     name: 'Skorpion',
+//     hp: 100,
+//     img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
+//     player: 1,
+//     rootSelector: 'arenas'
+// })
+//
+// const player2 = new Player({
+//     name: 'Liukang',
+//     hp: 100,
+//     img: 'http://reactmarathon-api.herokuapp.com/assets/liukang.gif',
+//     player: 2,
+//     rootSelector: 'arenas'
+// })
+let player1;
+let player2;
 
-const player2 = new Player({
-    player: 2,
-    name: 'Liukang',
-    hp: 100,
-    img: 'http://reactmarathon-api.herokuapp.com/assets/liukang.gif',
-    player: 2,
-    rootSelector: 'arenas'
-})
 
 
 export class Game{
     constructor(){
+        this.rootSelector = 'arenas'
 
+    }
+    getPlayers = async() => {
+        const body = playerApi.getPlayers()
+        return body
+    }
+    getEnemy = async() => {
+        return playerApi.getRandomPlayer()
+    }
+    getEnemyValue = async(hit, defence) => {
+        return playerApi.postFight(hit, defence)
     }
 
     createReloadButton = () =>{
@@ -37,7 +50,7 @@ export class Game{
         $reloadButton.innerText = 'Reload'
         $createReloadButton.appendChild($reloadButton)
         $reloadButton.addEventListener('click', function(){
-            window.location.reload()
+            window.location.pathname = '/MortalKombat/index.html'
         })
         return $createReloadButton
     }
@@ -139,6 +152,7 @@ export class Game{
     }
 
     enemyAttack = () => {
+
         const hit = ATTACK[getRandom(3)-1]
         const defence = ATTACK[getRandom(3)-1]
     
@@ -155,18 +169,36 @@ export class Game{
     
     
     
-    start = () => {
+    start = async() => {
+        //const players = await this.getPlayers()
+        //const p1 = players[getRandom(players.length)-1]
+        const p1 = JSON.parse(localStorage.getItem('player1'))
+        console.log(p1)
+        const p2 = await this.getEnemy()
+        console.log(p2)
+
+        player1 = new Player({
+            ...p1,
+            rootSelector:this.rootSelector,
+            player: 1
+        })
+        player2 = new Player({
+            ...p2,
+            rootSelector:this.rootSelector,
+            player: 2
+        })
+
         player1.createPlayer()
         player2.createPlayer()
         this.generateLogs('start',player1,player2)
 
          
 
-        $formFight.addEventListener('submit', (e) => {
+        $formFight.addEventListener('submit', async(e) => {
             e.preventDefault()
-            console.dir($formFight)
             const {hit,defence,value} = this.playerAttack()
-            const {hit:enemyHit,defence:enemyDefence,value:enemyValue} = this.enemyAttack()
+            let result = await this.getEnemyValue(hit,defence)
+            const {hit:enemyHit,defence:enemyDefence,value:enemyValue} = result.player2
             
         
             if (hit !== enemyDefence){
