@@ -30,7 +30,7 @@ function createEmptyPlayerBlock() {
 }
 
 async function init() {
-    //localStorage.removeItem('player1');
+    localStorage.removeItem('player1');
 
     const players = await playerApi.getPlayers();
 
@@ -69,7 +69,8 @@ async function init() {
             el.classList.add('active');
 
             setTimeout(() => {
-                window.location.pathname = '/MortalKombat/arenas.html'
+                //window.location.pathname = '/MortalKombat/arenas.html'
+                window.location.pathname = '/arenas.html'
 
                 // TODO: Здесь должен быть код который перенаправит вас на ваше игровое поле...
                 //  Пример использования: window.location.pathname = 'arenas.html';
