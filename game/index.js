@@ -37,7 +37,7 @@ export class Game{
         $reloadButton.innerText = 'Reload'
         $createReloadButton.appendChild($reloadButton)
         $reloadButton.addEventListener('click', function(){
-            window.location.pathname = '/MortalKombat/index.html'
+            window.location.pathname = '/index.html'
         })
         return $createReloadButton
     }
