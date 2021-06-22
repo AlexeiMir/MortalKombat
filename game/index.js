@@ -1,7 +1,7 @@
 import { createElement,getTime,getRandom}  from '../utils/index.js'
 import {Player} from '../player/index.js'
 import {HIT, ATTACK, LOGS} from '../constants/index.js'
-import {PlayerApi} from "../api";
+import {PlayerApi} from "../api/index.js";
 
 export const playerApi = new PlayerApi()
 
