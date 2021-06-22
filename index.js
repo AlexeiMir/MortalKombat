@@ -86,5 +86,3 @@ async function init() {
 
 init();
 
-//http://localhost:37958/MortalKombat/index.html?_ijt=g5k5fe1d54ravj6958am4sl8kp
-//http://localhost:37958/arenas.html?_ijt=g5k5fe1d54ravj6958am4sl8kp

@@ -1,28 +1,15 @@
 import { createElement,getTime,getRandom}  from '../utils/index.js'
 import {Player} from '../player/index.js'
 import {HIT, ATTACK, LOGS} from '../constants/index.js'
-import {playerApi} from "../index.js";
+import {PlayerApi} from "../api";
+
+export const playerApi = new PlayerApi()
 
 const $randomButton = document.querySelector('.button')
 const $formFight = document.querySelector('.control')
 const $chat = document.querySelector('.chat')
 const $arenas = document.querySelector('.arenas')
 
-// const player1 = new Player({
-//     name: 'Skorpion',
-//     hp: 100,
-//     img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-//     player: 1,
-//     rootSelector: 'arenas'
-// })
-//
-// const player2 = new Player({
-//     name: 'Liukang',
-//     hp: 100,
-//     img: 'http://reactmarathon-api.herokuapp.com/assets/liukang.gif',
-//     player: 2,
-//     rootSelector: 'arenas'
-// })
 let player1;
 let player2;
 
@@ -170,12 +157,8 @@ export class Game{
     
     
     start = async() => {
-        //const players = await this.getPlayers()
-        //const p1 = players[getRandom(players.length)-1]
         const p1 = JSON.parse(localStorage.getItem('player1'))
-        console.log(p1)
         const p2 = await this.getEnemy()
-        console.log(p2)
 
         player1 = new Player({
             ...p1,
