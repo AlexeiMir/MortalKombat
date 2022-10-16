@@ -24,7 +24,7 @@ const createElement = (tag, className) => {
 function createEmptyPlayerBlock() {
     const el = createElement('div', ['character', 'div11', 'disabled']);
     const img = createElement('img');
-    img.src = 'https://spiffy-dodol-d40463.netlify.app/assets/mk/avatar/11.png';
+    img.src = 'https://boiling-atoll-44568.herokuapp.com/assets/mk/avatar/11.png';
     el.appendChild(img);
     $parent.appendChild(el);
 }
